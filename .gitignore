@@ -205,3 +205,15 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Proyecto regresión lineal grupal
+# Ignorar datos procesados y resultados generados
+data/processed/
+reports/
+
+# Ignorar contenido de figures pero no la carpeta
+data/figures/
+
+# No ignorar notebooks ni data/raw para colaboración grupal
+# !notebooks/
+# !data/raw/
