@@ -207,13 +207,18 @@ marimo/_lsp/
 __marimo__/
 
 # Proyecto regresión lineal grupal
-# Ignorar datos procesados y resultados generados
-data/processed/
-reports/
+# Ignorar contenido de raw pero mantener la estructura de carpetas
+data/raw/*
+!data/raw/.gitkeep
 
-# Ignorar contenido de figures pero no la carpeta
-data/figures/
+# Ignorar datos procesados pero mantener la estructura
+data/processed/*
+!data/processed/.gitkeep
 
-# No ignorar notebooks ni data/raw para colaboración grupal
-# !notebooks/
-# !data/raw/
+# Ignorar contenido de figures pero mantener la estructura
+data/figures/*
+!data/figures/.gitkeep
+
+# Ignorar contenido de external pero mantener la estructura
+data/external/*
+!data/external/.gitkeep
