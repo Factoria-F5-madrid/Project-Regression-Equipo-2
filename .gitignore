@@ -222,3 +222,8 @@ data/figures/*
 # Ignorar contenido de external pero mantener la estructura
 data/external/*
 !data/external/.gitkeep
+
+
+# Ignorar contenido de results pero mantener la estructura
+data/results/*
+!data/results/.gitkeep
