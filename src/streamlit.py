@@ -37,7 +37,8 @@ AVAILABLE_MODELS = {
     "Support Vector Regression (SVR)": os.path.join(SCRIPT_DIR, "data", "results", "svr_model.pkl"),
     "Linear Regression": os.path.join(SCRIPT_DIR, "data", "results", "linear_regression_model.pkl"),
     "Decision Tree": os.path.join(SCRIPT_DIR, "data", "results", "decision_tree_model.pkl"), 
-    "K-Nearest Neighbors (KNN)": os.path.join(SCRIPT_DIR, "data", "results", "knn_model.pkl")
+    "K-Nearest Neighbors (KNN)": os.path.join(SCRIPT_DIR, "data", "results", "knn_model.pkl"),
+    "Ensemble (XGBoost)": os.path.join(SCRIPT_DIR, "data", "results", "ensemble_model.pkl")
 }
 
 # Función para verificar qué modelos están disponibles
@@ -96,6 +97,7 @@ if not available_models:
     {os.path.join(SCRIPT_DIR, "data", "results", "linear_regression_model.pkl")}
     {os.path.join(SCRIPT_DIR, "data", "results", "decision_tree_model.pkl")}
     {os.path.join(SCRIPT_DIR, "data", "results", "knn_model.pkl")}
+    {os.path.join(SCRIPT_DIR, "data", "results", "ensemble_model.pkl")}
     """)
     
     # Debug: mostrar directorio actual y archivos encontrados
@@ -453,4 +455,4 @@ with tab4:
 
 # Footer
 st.markdown("---")
-st.markdown(f"**Energy Consumption Predictor** - Usando modelos pre-entrenados | Modelos disponibles: {len(available_models)}/4")
+st.markdown(f"**Energy Consumption Predictor** - Usando modelos pre-entrenados | Modelos disponibles: {len(available_models)}/5")
