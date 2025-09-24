@@ -11,6 +11,8 @@ import joblib
 import os
 from pathlib import Path
 
+# streamlit run streamlit.py
+
 # Configuración de la página
 st.set_page_config(
     page_title="Energy Consumption Predictor",
@@ -369,18 +371,42 @@ with tab4:
             day_of_week = st.selectbox("Día de la Semana", ["Weekday", "Weekend"])
         
         if st.button("🔮 Hacer Predicción"):
-            # Crear dataframe con los datos ingresados
-            input_data = pd.DataFrame({
-                'Building Type': [building_type],
-                'Square Footage': [square_footage],
-                'Number of Occupants': [num_occupants],
-                'Appliances Used': [appliances],
-                'Average Temperature': [temperature],
-                'Day of Week': [day_of_week]
-            })
-            
-            # Hacer predicción con el modelo cargado
             try:
+                # Crear dataframe base con las características numéricas
+                input_data = pd.DataFrame({
+                    'Square Footage': [square_footage],
+                    'Number of Occupants': [num_occupants],
+                    'Appliances Used': [appliances],
+                    'Average Temperature': [temperature]
+                })
+                
+                # Aplicar OneHotEncoding manual para Building Type
+                input_data['Building Type_Commercial'] = 1 if building_type == 'Commercial' else 0
+                input_data['Building Type_Industrial'] = 1 if building_type == 'Industrial' else 0
+                input_data['Building Type_Residential'] = 1 if building_type == 'Residential' else 0
+                
+                # Aplicar OneHotEncoding manual para Day of Week
+                input_data['Day of Week_Weekday'] = 1 if day_of_week == 'Weekday' else 0
+                input_data['Day of Week_Weekend'] = 1 if day_of_week == 'Weekend' else 0
+                
+                # Reordenar columnas para que coincidan con el orden del modelo
+                # (basado en el error que vimos antes)
+                column_order = [
+                    'Square Footage', 'Number of Occupants', 'Appliances Used', 
+                    'Average Temperature', 'Building Type_Commercial', 
+                    'Building Type_Industrial', 'Building Type_Residential', 
+                    'Day of Week_Weekday', 'Day of Week_Weekend'
+                ]
+                
+                # Asegurarse de que todas las columnas estén presentes
+                for col in column_order:
+                    if col not in input_data.columns:
+                        input_data[col] = 0
+                
+                # Reordenar las columnas
+                input_data = input_data[column_order]
+                
+                # Hacer predicción con el modelo cargado
                 prediction = st.session_state.model.predict(input_data)[0]
                 
                 # Mostrar resultado
@@ -411,13 +437,16 @@ with tab4:
                 else:
                     st.info(f"📊 Esta predicción es {abs(difference):.2f} kWh ({abs(percentage):.1f}%) **menor** que el promedio del dataset ({avg_consumption:.2f} kWh)")
                 
-                # Mostrar los datos ingresados en una tabla
-                st.subheader("📋 Datos Ingresados:")
+                # Mostrar los datos procesados para debug
+                st.subheader("📋 Datos Procesados (enviados al modelo):")
                 st.dataframe(input_data)
                     
             except Exception as e:
                 st.error(f"Error al hacer la predicción: {str(e)}")
-                st.info("💡 Asegúrate de que el modelo fue entrenado con la misma estructura de datos")
+                st.info("💡 Detalles del error:")
+                st.write(f"- Forma de los datos: {input_data.shape if 'input_data' in locals() else 'No creados'}")
+                st.write(f"- Columnas: {list(input_data.columns) if 'input_data' in locals() else 'No disponibles'}")
+                st.write("- Asegúrate de que el modelo fue entrenado con la misma estructura de datos")
     
     else:
         st.info("👆 Primero evalúa el modelo en la pestaña 'Evaluación'")
