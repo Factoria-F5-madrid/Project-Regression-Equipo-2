@@ -613,3 +613,56 @@ with tab4:
 
 st.markdown("---")
 st.markdown(f"**Energy Consumption Predictor** - Usando modelos pre-entrenados | Modelos disponibles: {len(available_models)}/5")
+
+# ==============================================================================
+# NOTAS TÉCNICAS ADICIONALES
+# ==============================================================================
+
+"""
+ASPECTOS CLAVE DE ESTA APLICACIÓN:
+
+1. ARQUITECTURA MODULAR:
+   - Separación clara de responsabilidades (carga, visualización, predicción)
+   - Uso de session state para mantener estado entre interacciones
+   - Cache inteligente para optimizar rendimiento
+
+2. MANEJO DE ERRORES ROBUSTO:
+   - Verificación de existencia de archivos antes de cargar
+   - Messages informativos para debugging
+   - Fallbacks para diferentes tipos de errores
+
+3. COMPATIBILIDAD DE DATOS:
+   - Soporte para datos con y sin OneHotEncoding
+   - Reconstrucción inteligente de categorías para visualización
+   - Preprocesamiento automático para predicciones
+
+4. EXPERIENCIA DE USUARIO:
+   - Interface responsive con sidebar y tabs
+   - Visualizaciones interactivas con Plotly
+   - Feedback visual inmediato (spinners, mensajes de estado)
+   - Interpretación automática de resultados
+
+5. ESCALABILIDAD:
+   - Fácil agregar nuevos modelos al diccionario AVAILABLE_MODELS
+   - Sistema de cache que mejora con el uso
+   - Arquitectura preparada para múltiples algoritmos
+
+6. MEJORES PRÁCTICAS:
+   - Uso de st.cache_data para datos y st.cache_resource para modelos
+   - Manejo seguro de rutas con os.path.join()
+   - Session state para mantener contexto entre tabs
+   - Validación de entrada de usuario
+
+CONSIDERACIONES DE DEPLOYMENT:
+- La aplicación asume estructura de carpetas específica
+- Requiere modelos pre-entrenados en formato joblib
+- Compatible con contenedores Docker
+- Escalable para múltiples usuarios simultáneos
+
+POSIBLES MEJORAS FUTURAS:
+- Carga de modelos desde bases de datos
+- Comparación lado a lado de múltiples modelos
+- Exportación de resultados a PDF/Excel
+- Sistema de logging para monitoreo
+- API REST para integraciones externas
+"""
